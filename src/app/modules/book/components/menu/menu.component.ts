@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,8 +8,11 @@ import { Component } from '@angular/core';
 })
 
 
-export class MenuComponent {
+export class MenuComponent implements OnInit{
 
+  constructor(
+    private keycloakService: KeycloakService
+  ){  }
 
   ngOnInit(): void {
     const linkColor = document.querySelectorAll('.nav-link');
@@ -23,9 +27,8 @@ export class MenuComponent {
     });
   }
 
-logout() {
-  localStorage.removeItem('token');
-  window.location.reload();
+async logout() {
+  await this.keycloakService.logout();
 }
 
 }
